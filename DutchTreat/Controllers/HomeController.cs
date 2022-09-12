@@ -4,6 +4,7 @@ using DutchTreat.Models;
 using DutchTreat.Services;
 using System.Net.Sockets;
 using System.Xml.Linq;
+using DutchTreat.Data;
 
 namespace DutchTreat.Controllers;
 
@@ -11,11 +12,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IMailService _mailService;
+    private readonly IDutchRepository _repo;
 
-    public HomeController(ILogger<HomeController> logger, IMailService mailService)
+    public HomeController(ILogger<HomeController> logger, IMailService mailService, IDutchRepository repo)
     {
         _logger = logger;
         _mailService = mailService;
+        _repo = repo;
     }
 
     [Route("")]
@@ -23,6 +26,14 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         return View();
+    }
+
+    [HttpGet("Shop")]
+    public IActionResult Shop()
+    {
+        var results = _repo.GetAllProducts();
+
+        return View(results);
     }
 
     [HttpGet("Contact")]

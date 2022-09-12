@@ -1,6 +1,7 @@
 ﻿using DutchTreat.Services;
 using DutchTreat.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DutchTreat;
 
@@ -22,7 +23,26 @@ public class Program
 
         builder.Services.AddTransient<IMailService, NullMailService>();
 
+        builder.Services.AddTransient<DutchSeeder>();
+
+        builder.Services.AddScoped<IDutchRepository, DutchRepository>();
+
         var app = builder.Build();
+
+        // Seeding
+        static void RunSeeding(WebApplication app)
+        {
+            var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetService<DutchSeeder>();
+
+                seeder.Seed();
+            }
+        }
+
+        RunSeeding(app);
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment() && !app.Environment.IsStaging())
