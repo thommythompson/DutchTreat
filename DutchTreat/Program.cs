@@ -17,7 +17,8 @@ public class Program
             .AddEnvironmentVariables();
 
         // Add services to the container.
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews()
+            .AddNewtonsoftJson(cfg => cfg.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         builder.Services.AddDbContext<DutchContext>();
 

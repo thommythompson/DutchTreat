@@ -11,7 +11,7 @@
     "DutchTreat": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:8888",
+      "applicationUrl": "http://localhost:58618",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
