@@ -5,6 +5,7 @@ using DutchTreat.Services;
 using System.Net.Sockets;
 using System.Xml.Linq;
 using DutchTreat.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DutchTreat.Controllers;
 
@@ -28,6 +29,7 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize]
     [HttpGet("Shop")]
     public IActionResult Shop()
     {

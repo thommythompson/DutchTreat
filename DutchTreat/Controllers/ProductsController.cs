@@ -7,7 +7,7 @@ using System.Text.Json;
 namespace DutchTreat.Controllers
 {
 
-    [Route("api/[Controller]")]
+    [Route("Api/[Controller]")]
     [ApiController]
     [Produces("application/json")]
     public class ProductsController : Controller
