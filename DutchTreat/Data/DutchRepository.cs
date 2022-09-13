@@ -1,6 +1,7 @@
 ﻿using System;
 using DutchTreat.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using DutchTreat.Models;
 
 namespace DutchTreat.Data
 {
@@ -49,16 +50,23 @@ namespace DutchTreat.Data
             }
         }
 
-        public IEnumerable<Order> GetAllOrders()
+        public IEnumerable<Order> GetAllOrders(bool includeItems = true)
         {
             try
             {
                 _logger.LogInformation("Get all orders was called.");
 
-                return _dbContext.Orders
+                if (includeItems)
+                {
+                    return _dbContext.Orders
                     .Include(o => o.Items)
                     .ThenInclude(i => i.Product)
                     .ToList();
+                }
+                else
+                {
+                    return _dbContext.Orders.ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -98,6 +106,20 @@ namespace DutchTreat.Data
             {
                 _logger.LogError($"Failed to save all: {ex}");
                 return false;
+            }
+        }
+
+        public void AddEntity(object entity)
+        {
+            try
+            {
+                _logger.LogInformation("Add entity was called.");
+
+                _dbContext.Add(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to add entity: {ex}");
             }
         }
     }

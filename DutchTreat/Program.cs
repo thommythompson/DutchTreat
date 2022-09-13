@@ -2,6 +2,7 @@
 using DutchTreat.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace DutchTreat;
 
@@ -27,6 +28,8 @@ public class Program
         builder.Services.AddTransient<DutchSeeder>();
 
         builder.Services.AddScoped<IDutchRepository, DutchRepository>();
+
+        builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         var app = builder.Build();
 
